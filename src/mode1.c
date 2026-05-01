@@ -1,8 +1,11 @@
 #include "cpu/mode1.h"
 
+#include <stddef.h>
 #include <string.h>
 
 #include "virtuappu.h"
+
+virtuappu_mode1_pre_line_fn virtuappu_mode1_pre_line_callback = NULL;
 
 typedef struct Mode1TilemapEntry {
     uint16_t raw;
@@ -695,6 +698,9 @@ void virtuappu_mode1_render_frame(const PPUMemory *ppu)
     }
 
     for (line = 0; line < MODE1_GBA_HEIGHT; ++line) {
+        if (virtuappu_mode1_pre_line_callback != NULL) {
+            virtuappu_mode1_pre_line_callback(line);
+        }
         uint32_t bg_layers[MODE1_GBA_BG_COUNT][MODE1_GBA_WIDTH];
         uint8_t bg_priority[MODE1_GBA_BG_COUNT][MODE1_GBA_WIDTH];
         uint32_t obj_layer[MODE1_GBA_WIDTH];

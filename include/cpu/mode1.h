@@ -9,6 +9,9 @@
 extern "C" {
 #endif
 
+typedef void (*virtuappu_mode1_pre_line_fn)(int line);
+extern virtuappu_mode1_pre_line_fn virtuappu_mode1_pre_line_callback;
+
 enum {
     MODE1_GBA_WIDTH = 240,
     MODE1_GBA_HEIGHT = 160,
